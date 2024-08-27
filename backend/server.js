@@ -2,35 +2,41 @@ const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 const { v4: uuidv4 } = require('uuid');
-const requestIp = require('request-ip');
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-wss.on('connection', (ws, req) => {
-  const ip = requestIp.getClientIp(req);
+wss.on('connection', (ws) => {
   const userId = uuidv4();
-  console.log(`Client connected from IP: ${ip}, assigned userId: ${userId}`);
+  console.log(`Client connected, assigned userId: ${userId}`);
+
+  // Envia uma mensagem de boas-vindas ao novo cliente com seu userId
+  ws.send(JSON.stringify({ message: 'Welcome!', userId, timestamp: new Date().toISOString() }));
 
   ws.on('message', (msg) => {
     console.log('Message received from client:', msg);
 
-    const messageObject = JSON.parse(msg);
-    messageObject.userId = userId;
-    messageObject.ip = ip;
+    try {
+      const messageObject = JSON.parse(msg);
+      messageObject.userId = userId; // Adiciona o ID do usuário à mensagem
+      messageObject.timestamp = new Date().toISOString(); // Adiciona o timestamp atual
 
-    const messageToSend = JSON.stringify(messageObject);
+      const messageToSend = JSON.stringify(messageObject);
 
-    wss.clients.forEach(client => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(messageToSend);
-      }
-    });
+      // Envia a mensagem para todos os clientes conectados
+      wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(messageToSend);
+        }
+      });
+    } catch (error) {
+      console.error('Error parsing message:', error);
+    }
   });
 
   ws.on('close', () => {
-    console.log(`User with userId ${userId} disconnected from IP: ${ip}`);
+    console.log(`User with userId ${userId} disconnected`);
   });
 });
 

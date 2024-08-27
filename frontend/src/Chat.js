@@ -14,9 +14,7 @@ const Chat = () => {
 
     ws.onmessage = (event) => {
       const messageObject = JSON.parse(event.data);
-      const message = messageObject.message;
-      const senderId = messageObject.userId;
-      const timestamp = messageObject.timestamp;
+      const { message, userId: senderId, timestamp } = messageObject;
 
       if (!userId && senderId) {
         setUserId(senderId);
