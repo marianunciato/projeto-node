@@ -16,6 +16,12 @@ code {
     monospace;
 }
 
+textarea:focus, input:focus, select:focus {
+  box-shadow: 0 0 0 0;
+  border: 0 auto;
+  outline: 0;
+} 
+
 *::-webkit-scrollbar {
   width: 7px;
   background: transparent;

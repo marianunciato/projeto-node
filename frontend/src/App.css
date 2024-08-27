@@ -7,6 +7,18 @@
   background-size: cover;
 }
 
+.titulo-chat {
+  font-family: "Kanit", sans-serif;
+}
+
+.balao-mensagem {
+  font-family: "Roboto Mono", monospace;
+}
+
+.input-mensagem{
+  font-family: "Roboto Mono", monospace;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
