@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 import './App.css'
 
@@ -7,6 +7,7 @@ const Chat = () => {
   const [input, setInput] = useState('');
   const [socket, setSocket] = useState(null);
   const [userId, setUserId] = useState(null);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const ws = new WebSocket('ws://172.19.37.206:3001');
@@ -38,6 +39,14 @@ const Chat = () => {
     return () => ws.close();
   }, [userId]);
 
+  useEffect(() => {
+    const scrollToBottom = () => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    scrollToBottom();
+  }, [messages]);
+
   const sendMessage = () => {
     if (input.trim() && socket && socket.readyState === WebSocket.OPEN) {
       const messageObject = {
@@ -57,12 +66,13 @@ const Chat = () => {
         {messages.map((msg, index) => {
           const formattedTime = format(new Date(msg.timestamp), 'HH:mm');
           return (
-            <div key={index} className={`balao-mensagem flex my-1 px-3 py-2 rounded-xl w-fit max-w-96 break-all h-fit flex-wrap items-end justify-end ${msg.senderId = userId ? 'bg-purple-600 text-white place-self-end' : 'bg-teal-500 text-black place-self-start'}`}>
+            <div key={index} className={`balao-mensagem flex my-1 px-3 py-2 rounded-xl w-fit max-w-96 break-all h-fit flex-wrap items-end justify-end ${msg.senderId === userId ? 'bg-purple-600 text-white place-self-end' : 'bg-teal-500 text-black place-self-start'}`}>
               {msg.message}
               <p className="flex text-slate-200 text-[13px] ml-2">{formattedTime}</p>
             </div>
           );
         })}
+        <div ref={messagesEndRef}/>
       </div>
       <div className="flex items-end pt-2">
         <input
