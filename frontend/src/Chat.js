@@ -57,7 +57,7 @@ const Chat = () => {
         {messages.map((msg, index) => {
           const formattedTime = format(new Date(msg.timestamp), 'HH:mm');
           return (
-            <div key={index} className={`balao-mensagem flex my-1 px-3 py-2 rounded-xl w-fit max-w-96 break-all h-fit flex-wrap items-end justify-end ${msg.senderId === userId ? 'bg-purple-600 text-white place-self-end' : 'bg-teal-500 text-black place-self-start'}`}>
+            <div key={index} className={`balao-mensagem flex my-1 px-3 py-2 rounded-xl w-fit max-w-96 break-all h-fit flex-wrap items-end justify-end ${msg.senderId = userId ? 'bg-purple-600 text-white place-self-end' : 'bg-teal-500 text-black place-self-start'}`}>
               {msg.message}
               <p className="flex text-slate-200 text-[13px] ml-2">{formattedTime}</p>
             </div>
