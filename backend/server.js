@@ -7,9 +7,9 @@ const requestIp = require('request-ip');
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
+const ws = new WebSocket('ws://172.19.37.206:3001')
 
 wss.on('connection', (ws, req) => {
-  // Captura o IP do cliente
   const ip = requestIp.getClientIp(req);
   const userId = uuidv4();
   console.log(`Client connected from IP: ${ip}, assigned userId: ${userId}`);
@@ -19,7 +19,7 @@ wss.on('connection', (ws, req) => {
 
     const messageObject = JSON.parse(msg);
     messageObject.userId = userId;
-    messageObject.ip = ip; // Opcional: incluir o IP na mensagem, se necessário
+    messageObject.ip = ip;
 
     const messageToSend = JSON.stringify(messageObject);
 
