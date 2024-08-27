@@ -7,7 +7,6 @@ const requestIp = require('request-ip');
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
-const ws = new WebSocket('ws://172.19.37.206:3001')
 
 wss.on('connection', (ws, req) => {
   const ip = requestIp.getClientIp(req);

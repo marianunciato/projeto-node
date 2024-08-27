@@ -9,7 +9,7 @@ const Chat = () => {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:3001');
+    const ws = new WebSocket('ws://172.19.37.206:3001');
     setSocket(ws);
 
     ws.onmessage = (event) => {
