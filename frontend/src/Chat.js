@@ -17,13 +17,13 @@ const Chat = () => {
 
     ws.onmessage = (event) => {
       const messageObject = JSON.parse(event.data);
-      const { message, userId: senderId, timestamp, username } = messageObject;
+      const { message, userId: senderId, timestamp, username: senderName } = messageObject;
 
       if (!userId && senderId) {
         setUserId(senderId);
       }
 
-      setMessages((prevMessages) => [...prevMessages, { message, senderId, timestamp, username }]);
+      setMessages((prevMessages) => [...prevMessages, { message, senderId, timestamp, senderName }]);
     };
 
     ws.onopen = () => {
@@ -70,24 +70,16 @@ const Chat = () => {
     return <Login onLogin={handleLogin} />;
   }
 
-  const getMessageStyle = (msgUsername) => {
-    if (msgUsername === "nome1") {
-      return "bg-purple-600 text-white place-self-end";
-    } else if (msgUsername === "nome2") {
-      return "bg-blue-500 text-white place-self-start";
-    } else {
-      return "bg-teal-500 text-black place-self-start";
-    }
-  };
-
   return (
     <div className="flex flex-col bg-zinc- p-2 my-2 rounded-xl">
       <div className='flex flex-col h-96 w-full overflow-y-auto'>
         {messages.map((msg, index) => {
           const formattedTime = format(new Date(msg.timestamp), 'HH:mm');
+          const isCurrentUser = msg.userId === userId;
+          const alignmentClass = isCurrentUser ? 'justify-end bg-purple-600 text-white' : 'justify-start bg-teal-500 text-black';
           return (
-            <div key={index} className={`balao-mensagem flex my-1 px-3 py-2 rounded-xl w-fit max-w-96 break-all h-fit flex-wrap flex-col items-end justify-end ${getMessageStyle(msg.username)}`}>
-              <p className="text-sm font-bold flex justify-self-start">{msg.username}</p>
+            <div key={index} className={`balao-mensagem flex my-1 px-3 py-2 rounded-xl w-fit max-w-96 break-all h-fit flex-wrap flex-col items-end justify-end ${alignmentClass})}`}>
+              <p className="text-sm font-bold flex justify-self-start">{msg.senderName}</p>
               {msg.message}
               <p className="flex text-slate-200 text-[13px] ml-2">{formattedTime}</p>
             </div>
