@@ -15,7 +15,15 @@
   font-family: "Roboto Mono", monospace;
 }
 
-.input-mensagem{
+.input-mensagem {
+  font-family: "Roboto Mono", monospace;
+}
+
+.input-login {
+  font-family: "Roboto Mono", monospace;
+}
+
+.text-greetings {
   font-family: "Roboto Mono", monospace;
 }
 
