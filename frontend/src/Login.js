@@ -11,12 +11,13 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className="login-container flex flex-col items-center">
-        <p className="text-greetings text-white mb-2 mt-5">oii, se identifica, por favor!</p>
+    <div className="login-container flex flex-col items-center text-center w-[300px]">
+        <p className="text-greetings text-white mt-5">Bem vindo ao meu chat!</p>
+          <p className="text-greetings text-white mb-5">Se identifique para continuar ★</p>
         <div className="flex items-end pt-2">
             <input
                 type="text"
-                placeholder="seu nome"
+                placeholder="Seu nome aqui!"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="input-login h-11 px-5 py-3 border-2 border-teal-500 text-white bg-gray-900 bg-opacity-30 backdrop-blur-sm rounded-l-full"
