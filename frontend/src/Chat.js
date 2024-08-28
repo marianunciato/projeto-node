@@ -1,45 +1,40 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
-import Login from './Login';
-import './App.css'
 
-const Chat = () => {
+let socket = new WebSocket('ws://172.19.37.206:3001');
+
+socket.onmessage = (event) => {
+  const messageObject = JSON.parse(event.data);
+  if (messageObject?.type === "config" && !localStorage.getItem("userId")) {
+    localStorage.setItem("userId", messageObject.userId)
+  }
+}
+
+const Chat = ({ username }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const [socket, setSocket] = useState(null);
-  const [userId, setUserId] = useState(null);
-  const [username, setUsername] = useState('');
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://172.19.37.206:3001');
-    setSocket(ws);
-
-    ws.onmessage = (event) => {
+    socket.onmessage = (event) => {
       const messageObject = JSON.parse(event.data);
-      const { message, userId: senderId, timestamp, username: senderName } = messageObject;
-
-      if (!userId && senderId) {
-        setUserId(senderId);
+      if (messageObject.type === "message") {
+        setMessages((prevMessages) => [...prevMessages, messageObject]);
       }
-
-      setMessages((prevMessages) => [...prevMessages, { message, senderId, timestamp, senderName }]);
     };
 
-    ws.onopen = () => {
+    socket.onopen = () => {
       console.log('WebSocket connected');
     };
 
-    ws.onclose = () => {
+    socket.onclose = () => {
       console.log('WebSocket disconnected');
     };
 
-    ws.onerror = (error) => {
+    socket.onerror = (error) => {
       console.log('WebSocket error:', error);
     };
-
-    return () => ws.close();
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
     const scrollToBottom = () => {
@@ -53,7 +48,7 @@ const Chat = () => {
     if (input.trim() && socket && socket.readyState === WebSocket.OPEN) {
       const messageObject = {
         message: input,
-        userId,
+        userId: localStorage.getItem("userId"),
         username,
         timestamp: new Date().toISOString(),
       };
@@ -62,25 +57,24 @@ const Chat = () => {
     }
   };
 
-  const handleLogin = (username) => {
-    setUsername(username);
+  const getMessageStyle = (userId) => {
+    console.log(userId)
+    if (userId === localStorage.getItem("userId")) {
+      return { content: "bg-purple-600 text-white place-self-end", title: "text-right w-full", messagetext: "text-left w-full"};
+    } else {
+      return { content: "bg-blue-500 text-white place-self-start", title: "text-left w-full", messagetext: "text-left w-full"};
+    }
   };
-
-  if (!username) {
-    return <Login onLogin={handleLogin} />;
-  }
 
   return (
     <div className="flex flex-col bg-zinc- p-2 my-2 rounded-xl">
       <div className='flex flex-col h-96 w-full overflow-y-auto'>
         {messages.map((msg, index) => {
           const formattedTime = format(new Date(msg.timestamp), 'HH:mm');
-          const isCurrentUser = msg.userId === userId;
-          const alignmentClass = isCurrentUser ? 'justify-end bg-purple-600 text-white' : 'justify-start bg-teal-500 text-black';
           return (
-            <div key={index} className={`balao-mensagem flex my-1 px-3 py-2 rounded-xl w-fit max-w-96 break-all h-fit flex-wrap flex-col items-end justify-end ${alignmentClass})}`}>
-              <p className="text-sm font-bold flex justify-self-start">{msg.senderName}</p>
-              {msg.message}
+            <div key={index} className={`balao-mensagem flex my-1 px-3 py-2 rounded-xl w-fit max-w-96 break-all h-fit flex-wrap flex-col items-end justify-end ${getMessageStyle(msg.userId).content}`}>
+              <p className={`text-sm font-bold flex justify-self-start ${getMessageStyle(msg.userId).title}`}>{msg.username}</p>
+              <p className={`${getMessageStyle(msg.userId).messagetext}`}>{msg.message}</p>
               <p className="flex text-slate-200 text-[13px] ml-2">{formattedTime}</p>
             </div>
           );
