@@ -15,37 +15,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-textarea:focus, input:focus, select:focus {
-  box-shadow: 0 0 0 0;
-  border: 0 auto;
-  outline: 0;
-} 
-
-/* *::-webkit-scrollbar {
-  width: 7px;
-  background: transparent;
-}
-
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: #ffffff3a;
-  border-radius: 10px;
-} */
-
-.material-symbols-outlined {
-  font-family: 'Material Symbols Outlined';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-}

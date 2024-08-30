@@ -11,19 +11,21 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className="login-container flex flex-col items-center text-center">
-        <p className="text-greetings text-black mt-1">Bem vindo ao meu chat!</p>
-          <p className="text-greetings text-black mb-2">Se identifique para continuar.</p>
+    <div className="login-container flex flex-col items-center text-center w-[300px]">
+        <p className="text-greetings text-white mt-5">Bem vindo ao meu chat!</p>
+          <p className="text-greetings text-white mb-5">Se identifique para continuar ★</p>
         <div className="flex items-end pt-2">
             <input
                 type="text"
                 placeholder="Seu nome aqui!"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="input-login h-9 px-3 py-2 border-2 border-blue-300 text-gray-600 bg-white rounded-sm"
+                className="input-login h-11 px-5 py-3 border-2 border-teal-500 text-white bg-gray-900 bg-opacity-30 backdrop-blur-sm rounded-l-full"
             />
-            <button onClick={handleLogin} className="btn-login bg-gray-100 border-2 hover:bg-gray-200 border-blue-500 ml-2 px-2 h-9 rounded-md text-black flex justify-center items-center">
-                <p> Continuar </p>
+            <button onClick={handleLogin} className="btn-login w-12 bg-teal-500 hover:bg-teal-600 h-11 rounded-r-full text-white flex justify-center items-center">
+                <span className="material-symbols-outlined">
+                    arrow_forward
+                </span>
             </button>
         </div>
     </div>
