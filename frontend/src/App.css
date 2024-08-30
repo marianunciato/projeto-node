@@ -3,27 +3,8 @@
 @tailwind utilities;
 
 .App {
-  background-image: url('../public/planofundo.jpg');
+  background-image: url('../public/plano-fundo.jpg');
   background-size: cover;
-}
-
-.titulo-chat {
-  font-family: "Kanit", sans-serif;
-}
-
-.balao-mensagem {
-  font-family: "Roboto Mono", monospace;
-}
-
-.input-mensagem {
-  font-family: "Roboto Mono", monospace;
-}
-
-.input-login {
-  font-family: "Roboto Mono", monospace;
-}
-
-.text-greetings {
   font-family: "Roboto Mono", monospace;
 }
 
