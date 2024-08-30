@@ -60,22 +60,22 @@ const Chat = ({ username }) => {
   const getMessageStyle = (userId) => {
     console.log(userId)
     if (userId === localStorage.getItem("userId")) {
-      return { content: "bg-purple-600 text-white place-self-end", title: "text-right w-full", messagetext: "text-left w-full"};
+      return { content: "bg-blue-600 border-2 border-blue-700 text-white place-self-end", title: "text-right w-full", messagetext: "text-left w-full"};
     } else {
-      return { content: "bg-blue-500 text-white place-self-start", title: "text-left w-full", messagetext: "text-left w-full"};
+      return { content: "bg-lime-500 border-2 border-lime-600 text-white place-self-start", title: "text-left w-full", messagetext: "text-left w-full"};
     }
   };
 
   return (
-    <div className="flex flex-col bg-zinc- p-2 my-2 rounded-xl">
+    <div className="flex flex-col my-2 rounded-xl">
       <div className='flex flex-col h-96 w-full overflow-y-auto'>
         {messages.map((msg, index) => {
           const formattedTime = format(new Date(msg.timestamp), 'HH:mm');
           return (
-            <div key={index} className={`balao-mensagem flex my-1 px-3 py-2 rounded-xl w-fit max-w-96 break-all h-fit flex-wrap flex-col items-end justify-end ${getMessageStyle(msg.userId).content}`}>
+            <div key={index} className={`balao-mensagem flex my-1 mx-2 px-2 py-1 rounded-md w-fit max-w-96 break-all h-fit flex-wrap flex-col items-end justify-end ${getMessageStyle(msg.userId).content}`}>
               <p className={`text-sm font-bold flex justify-self-start ${getMessageStyle(msg.userId).title}`}>{msg.username}</p>
               <p className={`${getMessageStyle(msg.userId).messagetext}`}>{msg.message}</p>
-              <p className="flex text-slate-200 text-[13px] ml-2">{formattedTime}</p>
+              <p className="flex text-white opacity-80 text-[13px] ml-2">{formattedTime}</p>
             </div>
           );
         })}
@@ -88,12 +88,10 @@ const Chat = ({ username }) => {
           placeholder='Mensagem'
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-          className="input-mensagem w-96 h-11 px-5 py-3 border-2 border-pink-500 text-white bg-gray-900 bg-opacity-30 backdrop-blur-sm rounded-l-full"
+          className="input-mensagem w-96 h-9 px-2 py-2 border-2 border-blue-300 text-gray-600 bg-white rounded-sm"
         />
-        <button className="bg-pink-500 hover:bg-pink-600 h-11 w-16 rounded-r-full text-white flex justify-center items-center" onClick={sendMessage}>
-          <span className="material-symbols-outlined">
-            send
-          </span>
+        <button className="bg-gray-100 border-2 hover:bg-gray-200 border-blue-500 h-9 rounded-md ml-2 text-black flex justify-center items-center" onClick={sendMessage}>
+          <p className="px-2 font-medium">Enviar</p>
         </button>
       </div>
     </div>
