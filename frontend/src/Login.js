@@ -12,8 +12,8 @@ const Login = ({ onLogin }) => {
 
   return (
     <div className="login-container flex flex-col items-center text-center w-[300px]">
-        <p className="text-greetings text-white mt-5">Bem vindo ao meu chat!</p>
-          <p className="text-greetings text-white mb-5">Se identifique para continuar ★</p>
+        <p className="text-greetings text-white">Bem vindo ao chat room!</p>
+          <p className="text-greetings text-white mb-3">Se identifique para continuar ★</p>
         <div className="flex items-end pt-2">
             <input
                 type="text"
